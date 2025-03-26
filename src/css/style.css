@@ -1,0 +1,169 @@
+/* header style */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background-color: #ffff;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 99;
+}
+
+.header_inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header_text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.header_logo_text {
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+}
+
+.header_full_text {
+    font-size: 17px;
+    font-weight: bolder;
+    padding: 0 16px;
+    color: black;
+}
+
+.header_menu {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.header_menu_navbook {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header_menu_navbook img {
+    width: 32px;
+    height: 32px;
+}
+
+.header_menu_lang {
+    position: relative;
+}
+
+.btn_lang {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#lang_list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #ffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 4px;
+    padding: 0;
+    list-style: none;
+    min-width: 100%;
+    display: none;
+    z-index: 100;
+}
+
+#lang_list li {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#lang_list li:hover {
+    background-color: #f3f3f3;
+}
+
+/*main style */
+
+.main {
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.main_row {
+    display: flex;
+    gap: 24px;
+    align-items: stretch;
+}
+
+.card {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.add-book form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+.add-book input,
+.add-book select,
+.add-book button {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.add-book button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: bacground 0.2s;
+}
+
+.add-book button:hover {
+    background-color: #45a049;
+}
+
+/* pop menu style */
+.btn_navbook {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn_navbook img {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s ease;
+}
+
+.rotated {
+    transform: rotate(90deg);
+}

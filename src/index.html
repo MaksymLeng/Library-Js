@@ -5,8 +5,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
+    <header class="header">
+        <div class="header_inner">
+            <div class="header_text">
+                <div class="header_logo_text">LMG</div>
+                <div class="header_full_text">Library Maksym Leng</div>
+            </div>
+            <div class="header_menu">
+                <div class="header_menu_lang">
+                    <button id = "btn_lang" class="btn_lang">🌐</button>
+                    <ul id="lang_list">
+                        <li data-lang="en">ENG</li>
+                        <li data-lang="ru">RU</li>
+                    </ul>
+                </div>
+                <div class="header_menu_navbook">
+                    <button id = "btn_navbook" class="btn_navbook">
+                        <img src="icons/book_icons.svg" alt="navBook">
+                    </button>
+                    <div class="menu_popup" id="menuPopup">
+                        <!--<span class="menu_text">MaksymLeng</span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="main_row">
+            <section class="how_to_use card">
+                <h2>📖 Как пользоваться библиотекой</h2>
+                <div>Добавьте свою книгу вручную, указав название, автора, жанр и статус чтения.</div>
+                <div>Ваши книги сохраняются в браузере — вы сможете вернуться к ним в любой момент.</div>
+            </section>
+            <section class="add-book card">
+                <h2>➕ Добавить книгу</h2>
+                <form id="book-form">
+                    <input type ="text" id="title" placeholder="Название книги" required>
+                    <input type ="text" id="author" placeholder="Автор" required>
+                    <input type ="text" id="genre" placeholder="Жанр" />
+                    <select id="status">
+                        <option value="plan">В планах</option>
+                        <option value="reading">Читаю</option>
+                        <option value="read">Прочитано</option>
+                    </select>
+                    <button type="submit">Добавить 📚</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    <script src="js/script.js"></script>
 </body>
 </html>
