@@ -35,7 +35,12 @@
     </header>
 
     <main class="main">
-        <div class="main_row">
+        <div class="circle-wrapper">
+            <div class = "rotating-books" id="bookCircles">
+                <!--Add book_circle-->
+            </div>
+        </div>
+        <div class="main_content">
             <section class="how_to_use card">
                 <h2>📖 Как пользоваться библиотекой</h2>
                 <div>Добавьте свою книгу вручную, указав название, автора, жанр и статус чтения.</div>
@@ -46,7 +51,7 @@
                 <form id="book-form">
                     <input type ="text" id="title" placeholder="Название книги" required>
                     <input type ="text" id="author" placeholder="Автор" required>
-                    <input type ="text" id="genre" placeholder="Жанр" />
+                    <input type ="text" id="genre" placeholder="Жанр(не обязательно)" />
                     <select id="status">
                         <option value="plan">В планах</option>
                         <option value="reading">Читаю</option>
