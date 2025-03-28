@@ -1,3 +1,4 @@
+
 // book anim
 
 const navBtn = document.getElementById("btn_navbook");
@@ -17,7 +18,7 @@ document.addEventListener("click", () => {
     navIcon.classList.remove("rotated");
 })
 
-// circle anim
+// circle anim and book array
 
 const form = document.getElementById("book-form");
 const bookCircles = document.getElementById("bookCircles");
@@ -38,15 +39,22 @@ form.addEventListener("submit", (e) => {
     books.push(book);
     localStorage.setItem("books", JSON.stringify(books));
 
-    addBookCircle(book, books.length -1);
+    addBookCircle(book);
     form.reset();
 });
 
-function addBookCircle(book, index) {
+function addBookCircle(book) {
     const circle = document.createElement("div");
+    circle.classList.add("book-circle", book.status);
 
-    circle.classList.add("book-circle");
-    circle.innerHTML = book.title[0].toUpperCase() || "📘";
+    const statusIcon = book.status === "read" ? "✅"
+                            :book.status = "reading" ? "📖"
+                            : "📌";
+
+    circle.innerHTML = `<div class="book-content">
+                            ${statusIcon}<span>${book.title[0].toUpperCase()}</span>
+                        </div>
+                       `;
     circle.title = `${book.title} - ${book.author}`;
 
     bookCircles.appendChild(circle);
@@ -56,15 +64,41 @@ function addBookCircle(book, index) {
 function updateBookPosition(){
     const circles = document.querySelectorAll(".book-circle");
     const total = circles.length;
-
     const radius = 200;
 
     circles.forEach((circle, i) => {
-        const angle = (2 * Math.PI / total) * index - Math.PI / 2;
+        const angle = (2 * Math.PI / total) * i - Math.PI / 2;
 
         const x = radius * Math.cos(angle);
         const y = radius * Math.sin(angle);
+        circle.style.left = `${x}px`;
+        circle.style.transform = `translate(${x}px)`;
 
-        circle.style.transform = `translate(${x}px,${y})px`;
+        const content = circle.querySelector(".book-content");
+        const degrees = (angle * 180) / Math.PI;
+        content.style.transform = `rotate(${-degrees}deg)`;
     });
 }
+
+// change language
+
+const langBtn = document.getElementById("btn_lang");
+const langList = document.getElementById("lang_list");
+
+langBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    langList.style.display = langList.style.display === "block" ? "none" : "block";
+    langBtn.classList.toggle("active");
+});
+
+document.addEventListener("click", (e) => {
+    langList.style.display = "none";
+    langBtn.classList.remove("active");
+});
+
+langList.querySelectorAll("li").forEach((li) => {
+    li.addEventListener("click", (e) => {
+        const lang = li.dataset.lang;
+        console.log("Выбран язык", lang);
+    })
+})

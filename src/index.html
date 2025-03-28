@@ -17,7 +17,7 @@
             <div class="header_menu">
                 <div class="header_menu_lang">
                     <button id = "btn_lang" class="btn_lang">🌐</button>
-                    <ul id="lang_list">
+                    <ul id="lang_list" class="lang_list">
                         <li data-lang="en">ENG</li>
                         <li data-lang="ru">RU</li>
                     </ul>
@@ -35,31 +35,31 @@
     </header>
 
     <main class="main">
-        <div class="circle-wrapper">
-            <div class = "rotating-books" id="bookCircles">
-                <!--Add book_circle-->
-            </div>
-        </div>
         <div class="main_content">
             <section class="how_to_use card">
                 <h2>📖 Как пользоваться библиотекой</h2>
                 <div>Добавьте свою книгу вручную, указав название, автора, жанр и статус чтения.</div>
                 <div>Ваши книги сохраняются в браузере — вы сможете вернуться к ним в любой момент.</div>
             </section>
-            <section class="add-book card">
-                <h2>➕ Добавить книгу</h2>
-                <form id="book-form">
-                    <input type ="text" id="title" placeholder="Название книги" required>
-                    <input type ="text" id="author" placeholder="Автор" required>
-                    <input type ="text" id="genre" placeholder="Жанр(не обязательно)" />
-                    <select id="status">
-                        <option value="plan">В планах</option>
-                        <option value="reading">Читаю</option>
-                        <option value="read">Прочитано</option>
-                    </select>
-                    <button type="submit">Добавить 📚</button>
-                </form>
-            </section>
+            <div class="circle-wrapper card">
+                <section class="add-book">
+                    <h2>➕ Добавить книгу</h2>
+                    <form id="book-form">
+                        <input type ="text" id="title" placeholder="Название книги" required>
+                        <input type ="text" id="author" placeholder="Автор" required>
+                        <input type ="text" id="genre" placeholder="Жанр(не обязательно)" />
+                        <select id="status">
+                            <option value="plan">В планах</option>
+                            <option value="reading">Читаю</option>
+                            <option value="read">Прочитано</option>
+                        </select>
+                        <button type="submit">Добавить 📚</button>
+                    </form>
+                </section>
+                <div class = "rotating-books" id="bookCircles">
+                    <!--Add book_circle-->
+                </div>
+            </div>
         </div>
     </main>
     <script src="js/script.js"></script>
