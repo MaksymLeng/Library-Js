@@ -1,4 +1,11 @@
+html,body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 /* header style */
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -104,12 +111,18 @@
 /*main style */
 
 .main {
-    padding: 80px 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 20px;
     max-width: 800px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 40px;
+    align-items: center;
+    justify-content: center;
 }
 
 .card {
@@ -184,6 +197,7 @@
     display: flex;
     align-items: stretch;
     justify-content: center;
+    z-index: 3;
 }
 
 .rotating-books {
@@ -193,6 +207,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    transform-origin: center;
     animation: rotate 20s linear infinite;
     pointer-events: none;
     z-index: 1;
@@ -200,6 +215,7 @@
 
 .rotating-books .book-circle {
     transform: none;
+    border-radius: 50%;
 }
 
 .rotating-books:hover,
@@ -215,31 +231,45 @@
     background: #5bc0de; /* по умолчанию */
     font-weight: bold;
     font-size: 14px;
-    text-align: center;
-    line-height: 1.2;
     color: #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transform: translate(-50%, -50%);
     cursor: pointer;
     pointer-events: auto;
     user-select: none;
-
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    transform: translate(-50%, -50%);
+    z-index: 2;
 }
 
 .book-content {
-    transform: rotate(-360deg);
+    transform: rotate(0deg);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: transform 0.3s ease, z-index 0.2s;
+}
+.book-details {
+    display: none;
+    font-size: 3px;
+    margin-top: 1px;
+    color: white;
+}
+
+.book-circle.expanded {
+    transform: translate(-50%, -50%) scale(3);
+    z-index: 10;
+}
+
+
+.book-circle.expanded .book-details {
+    display: block;
 }
 
 .book-circle span {
-    font-size: 16px;
+    font-size: 14px;
     color: #ffffff;
     margin-top: 2px;
 }
