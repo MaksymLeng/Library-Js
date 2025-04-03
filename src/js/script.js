@@ -1,6 +1,8 @@
+document.body.style.cursor = "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" height=\"32\" width=\"32\"><text y=\"24\" font-size=\"24\">🐰</text></svg>') 16 16, auto";
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    // book anim
+    // navbook anim
 
     const navBtn = document.getElementById("btn_navbook");
     const popup = document.getElementById("menuPopup");
@@ -24,7 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("book-form");
     const bookCircles = document.getElementById("bookCircles");
 
-    let books =  JSON.parse(localStorage.getItem("books")) || [];
+    let books =  JSON.parse(localStorage.getItem("books")) || [];``
+
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -45,6 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function addBookCircle(book) {
+        const bookCirclesAll = document.querySelectorAll(".book-circle");
+        let isPaused = false;
         const circle = document.createElement("div");
         circle.classList.add("book-circle", book.status);
 
@@ -63,7 +68,23 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                            `;
 
-        AddListenerBook();
+        bookCirclesAll.forEach((circle) => {
+            circle.addEventListener("click", () => {
+                circle.classList.toggle("expanded")
+
+                if (circle.classList.contains("expanded")) {
+                    bookCircles.style.animationPlayState = "paused";
+                    isPaused = true;
+                } else {
+                    const stillExpanded = document.querySelector(".book-circle.expanded");
+                    if (!stillExpanded) {
+                        bookCircles.style.animationPlayState = "running";
+                        isPaused = false;
+                    }
+                }
+            });
+        })
+
         bookCircles.appendChild(circle);
         updateBookPosition()
     }
@@ -122,27 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    function AddListenerBook() {
-        const bookCirclesAll = document.querySelectorAll(".book-circle");
-        let isPaused = false;
-
-        bookCirclesAll.forEach((circle) => {
-            circle.addEventListener("click", () => {
-                circle.classList.toggle("expanded")
-
-                if (circle.classList.contains("expanded")) {
-                    bookCircles.style.animationPlayState = "paused";
-                    isPaused = true;
-                } else {
-                    const stillExpanded = document.querySelector(".book-circle.expanded");
-                    if (!stillExpanded) {
-                        bookCircles.style.animationPlayState = "running";
-                        isPaused = false;
-                    }
-                }
-            });
-        })
-    }
 });
 
 
