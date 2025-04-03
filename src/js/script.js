@@ -72,11 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
             circle.classList.toggle("expanded");
 
             if (circle.classList.contains("expanded")) {
-                isPaused = true; // стоп вращение
+                isPaused = true;
             } else {
                 const stillExpanded = document.querySelector(".book-circle.expanded");
                 if (!stillExpanded) {
-                    isPaused = false; // снова крутим
+                    isPaused = false;
                 }
             }
         });
@@ -104,7 +104,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const content = circle.querySelector(".book-content");
             const degrees = (angle * 180) / Math.PI;
-            content.style.transform = `rotate(${-degrees + 180}deg)`;
+            if (circle.classList.contains("expanded")) {
+                content.style.transform = `rotate(0deg)`;
+            }else {
+                content.style.transform = `rotate(${-degrees + 180}deg)`;
+            }
         });
     }
 
