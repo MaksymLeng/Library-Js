@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("book-form");
     const bookCircles = document.getElementById("bookCircles");
 
-    let books =  JSON.parse(localStorage.getItem("books")) || [];``
-
+    let books =  JSON.parse(localStorage.getItem("books")) || [];
+    let parentAngle = 0;       // глобальный угол вращения
+    let rotationSpeed = 0.01;  // скорость вращения
+    let isPaused = false;      // останавливаем при раскрытии кружка
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -48,8 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function addBookCircle(book) {
-        const bookCirclesAll = document.querySelectorAll(".book-circle");
-        let isPaused = false;
         const circle = document.createElement("div");
         circle.classList.add("book-circle", book.status);
 
@@ -68,22 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                            `;
 
-        bookCirclesAll.forEach((circle) => {
-            circle.addEventListener("click", () => {
-                circle.classList.toggle("expanded")
+        circle.addEventListener("click", () => {
+            circle.classList.toggle("expanded");
 
-                if (circle.classList.contains("expanded")) {
-                    bookCircles.style.animationPlayState = "paused";
-                    isPaused = true;
-                } else {
-                    const stillExpanded = document.querySelector(".book-circle.expanded");
-                    if (!stillExpanded) {
-                        bookCircles.style.animationPlayState = "running";
-                        isPaused = false;
-                    }
+            if (circle.classList.contains("expanded")) {
+                isPaused = true; // стоп вращение
+            } else {
+                const stillExpanded = document.querySelector(".book-circle.expanded");
+                if (!stillExpanded) {
+                    isPaused = false; // снова крутим
                 }
-            });
-        })
+            }
+        });
 
         bookCircles.appendChild(circle);
         updateBookPosition()
@@ -92,23 +88,23 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateBookPosition(){
         const circles = document.querySelectorAll(".book-circle");
         const total = circles.length;
-        const radius = 100;
+        const radius = 150;
 
         circles.forEach((circle, i) => {
-            // const angle = (2 * Math.PI / total) * i - Math.PI / 2;
+            const angleStep = (2 * Math.PI) / total;
+            const angle = angleStep * i + parentAngle;
+            const offsetX = 200;
+            const offsetY = 200;
 
-            const angleStep = (2 * Math.PI / total);
-            const angle = angleStep * i;
-
-            const x = radius * Math.cos(angle);
-            const y = radius * Math.sin(angle);
+            const x = offsetX + radius * Math.cos(angle);
+            const y = offsetY + radius * Math.sin(angle);
 
             circle.style.left = `${x}px`;
             circle.style.top = `${y}px`;
 
             const content = circle.querySelector(".book-content");
             const degrees = (angle * 180) / Math.PI;
-            content.style.transform = `rotate(${-degrees}deg)`;
+            content.style.transform = `rotate(${-degrees + 180}deg)`;
         });
     }
 
@@ -138,11 +134,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedBooks = localStorage.getItem("books");
     if (savedBooks) {
         books = JSON.parse(savedBooks);
-        books.forEach(() => {
-            books.forEach((book) => {addBookCircle(book);});
-        })
+        books.forEach((book) => addBookCircle(book));
     }
 
+    function animateRotation() {
+      if (!isPaused) {
+        parentAngle += rotationSpeed;
+      }
+      updateBookPosition();
+      requestAnimationFrame(animateRotation);
+    }
+    requestAnimationFrame(animateRotation);
 });
-
-
