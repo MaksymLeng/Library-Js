@@ -9,16 +9,16 @@
     transform: translate(-50%, -50%);
     transform-origin: center;
     pointer-events: none; /* so clicks pass through the container */
-    z-index: 1;
+    z-index: 10;
 }
 
 /* If "random" mode is enabled,
    we add the .random-mode class in JS to the same container.
    Let's make it fill the entire viewport, for example: */
 .random-mode {
-    position: relative; /* or absolute, up to you */
-    width: 100vw;
-    height: 100vh;
+    position: fixed; /* or absolute, up to you */
+    width: 98vw;
+    height: 98vh;
     left: 0;
     top: 0;
     transform: none;

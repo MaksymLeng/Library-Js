@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         popup.style.display = isOpen ? "none" : "block";
         navIcon.classList.toggle("rotated", !isOpen);
+        plugin.setMode(plugin.config.mode === "circular" ? "random" : "circular");
     });
 
     document.addEventListener("click", () => {
@@ -46,10 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!title || !author) return;
 
         const book = {title, author, genre, status};
-        books.push(book);
-        localStorage.setItem("books", JSON.stringify(books));
 
         plugin.addBook(book);
+        localStorage.setItem("books", JSON.stringify(books));
         form.reset();
     });
 
@@ -75,10 +75,4 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Выбран язык", lang);
         })
     });
-
-    // const savedBooks = localStorage.getItem("books");
-    // if (savedBooks) {
-    //     books = JSON.parse(savedBooks);
-    //     books.forEach(book => plugin.addBook(book));
-    // }
 });

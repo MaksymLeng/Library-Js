@@ -75,27 +75,7 @@ export default class RotatingCircles {
 
         // If "random" mode, generate initial coordinates and speeds
         if (this.config.mode === "random") {
-            const rect = this.container.getBoundingClientRect();
-            const startX = Math.random() * rect.width;
-            const startY = Math.random() * rect.height;
-
-            // Generate random speed within the given range
-            const [minSpeed, maxSpeed] = this.config.randomSpeedRange;
-            const speedX = (Math.random() * (maxSpeed - minSpeed) + minSpeed) * (Math.random() < 0.5 ? -1 : 1);
-            const speedY = (Math.random() * (maxSpeed - minSpeed) + minSpeed) * (Math.random() < 0.5 ? -1 : 1);
-
-            // Store data in the array
-            this.circlesData.push({
-                element: circle,
-                x: startX,
-                y: startY,
-                vx: speedX,
-                vy: speedY
-            });
-
-            // Set the position right away to avoid visual jumps
-            circle.style.left = `${startX}px`;
-            circle.style.top = `${startY}px`;
+            this.initRandomData()
         }
 
         // In circular mode, update positions immediately so circles get placed
@@ -109,6 +89,19 @@ export default class RotatingCircles {
         } else {
             this.updateRandomPosition();
         }
+    }
+
+    setMode(mode) {
+        this.config.mode = mode;
+
+        if (mode === "random") {
+            this.container.classList.add("random-mode");
+            this.initRandomData();
+        } else {
+            this.container.classList.remove("random-mode");
+        }
+
+        this.updatePositions();
     }
 
     // Lay out circles in a circle
@@ -140,6 +133,33 @@ export default class RotatingCircles {
             } else {
                 content.style.transform = `rotate(${-degrees + 180}deg)`;
             }
+        });
+    }
+
+    initRandomData() {
+        this.circlesData = [];
+
+        const rect = this.container.getBoundingClientRect();
+        const circles = this.container.querySelectorAll('.book-circle');
+
+        circles.forEach(circle => {
+            const startX = Math.random() * rect.width;
+            const startY = Math.random() * rect.height;
+
+            const [minSpeed, maxSpeed] = this.config.randomSpeedRange;
+            const speedX = (Math.random() * (maxSpeed - minSpeed) + minSpeed) * (Math.random() < 0.5 ? -1 : 1);
+            const speedY = (Math.random() * (maxSpeed - minSpeed) + minSpeed) * (Math.random() < 0.5 ? -1 : 1);
+
+            this.circlesData.push({
+                element: circle,
+                x: startX,
+                y: startY,
+                vx: speedX,
+                vy: speedY
+            });
+
+            circle.style.left = `${startX}px`;
+            circle.style.top = `${startY}px`;
         });
     }
 
