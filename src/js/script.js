@@ -16,11 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
         plugin.setMode(plugin.config.mode === "circular" ? "random" : "circular");
     });
 
-    document.addEventListener("click", () => {
-        popup.style.display = "none";
-        navIcon.classList.remove("rotated");
-    })
-
     // circle anim and book array
 
     const form = document.getElementById("book-form");
@@ -61,9 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
         langBtn.classList.toggle("active");
     });
 
-    document.addEventListener("click", () => {
+    document.addEventListener("click", (e) => {
+        //langList
         langList.style.display = "none";
         langBtn.classList.remove("active");
+        //popup
+        popup.style.display = "none";
+        navIcon.classList.remove("rotated");
+        // hack copy plugin pressing anywhere
+        if (!e.target.closest(".book-circle")) {
+            setTimeout(() => {
+                plugin.isPaused = false;
+                plugin.container.querySelectorAll(".book-circle.expanded")
+                    .forEach(c => c.classList.remove("expanded"));
+            }, 0);
+        }
     });
 
     langList.querySelectorAll("li").forEach((li) => {
@@ -72,4 +79,14 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Выбран язык", lang);
         })
     });
+
+    // upload file script
+
+    const fileInput = document.getElementById("file");
+    const uploadCorner = document.getElementById("upload_corner");
+
+    uploadCorner.addEventListener("click", (e) => {
+        e.stopPropagation();
+        fileInput.click();
+    })
 });

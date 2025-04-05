@@ -199,3 +199,51 @@ html,body {
     justify-content: center;
     z-index: 3;
 }
+
+/* btn upload file */
+.add-btn {
+    position: relative;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    padding: 0;
+    width: 100%;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+.add-btn:hover {
+    background-color: #ffd700;
+    color: #333;
+}
+
+.main_btn_text {
+    z-index: 1;
+}
+
+.add-btn .upload_corner {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    background-color: #ffd700;
+    clip-path: polygon(25% 0%, 100% 0%, 100% 100%,0% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    height: 100%;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.add-btn:hover .upload_corner {
+    background-color: #ffa500;
+}
