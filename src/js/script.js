@@ -1,9 +1,8 @@
-import RotatingCircles from './circle-plugin.js';
-
+import RotatingCircles from 'https://cdn.jsdelivr.net/gh/MaksymLeng/rotating-circles-plugin/dist/circle-plugin.js';
 document.body.style.cursor = "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" height=\"32\" width=\"32\"><text y=\"24\" font-size=\"24\">🐰</text></svg>') 16 16, auto";
 
 document.addEventListener("DOMContentLoaded", () => {
-
+    console.log(RotatingCircles);
     // navbook anim
 
     const navBtn = document.getElementById("btn_navbook");
