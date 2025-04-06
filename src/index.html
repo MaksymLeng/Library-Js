@@ -56,16 +56,18 @@
                             <option value="reading">Читаю</option>
                             <option value="read">Прочитано</option>
                         </select>
-                        <button type="submit" class="add-btn">
-                            <span class = "main_btn_text">Добавить 📚</span>
-                            <span class = "upload_corner">📁</span>
-                        </button>
-                        <input type="file" id="file" accept=".pdf, .epub, .doc, .docx, .odt" style="display: none"/>
+                        <div class = "buttons-container">
+                            <button type ="submit" class ="green-btn">Добавить 📚</button>
+                            <button class ="yellow-btn">📁</button>
+                            <input type="file" id="fileInput" accept=".pdf, .epub, .doc, .docx, .odt" style="display: none"/>
+                        </div>
                     </form>
+                    <div id="toast" class="toast hidden">⚠️ Сначала добавьте файл книги</div>
                 </section>
             </div>
         </div>
     </main>
     <script type="module" src="js/script.js"></script>
+
 </body>
 </html>

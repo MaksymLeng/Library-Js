@@ -30,6 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
+        if (!fileChosen) {
+            showToast("⚠️ Сначала добавьте файл книги");
+            return;
+        }
 
         const title = document.getElementById("title").value.trim();
         const author = document.getElementById("author").value.trim();
@@ -80,13 +84,42 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     });
 
-    // upload file script
+    // animation btnUpload and fileInput
 
-    const fileInput = document.getElementById("file");
-    const uploadCorner = document.getElementById("upload_corner");
+    const greenBtn = document.querySelector(".green-btn");
+    const yellowBtn = document.querySelector(".yellow-btn");
+    const fileInput = document.querySelector("#fileInput");
 
-    uploadCorner.addEventListener("click", (e) => {
-        e.stopPropagation();
+    yellowBtn.addEventListener('mouseenter', () => {
+        greenBtn.classList.add("hovered");
+    });
+
+    yellowBtn.addEventListener('mouseleave', () => {
+        greenBtn.classList.remove("hovered");
+    });
+
+    yellowBtn.addEventListener('click', () => {
         fileInput.click();
     })
+
+    let fileChosen = false;
+
+    fileInput.addEventListener("change", () => {
+        fileChosen = !!fileInput.files[0];
+    });
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        if(!toast) return;
+
+        toast.textContent = message;
+        toast.classList.remove("show");
+        setTimeout(() => {
+            toast.classList.add("show");
+        }, 10);
+
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    }
 });
