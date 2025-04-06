@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("book-form");
 
     let books =  JSON.parse(localStorage.getItem("books")) || [];
+    let fileChosen = false;
+    let fileUsed = false;
+    let usedFileName = null;
 
     const plugin = new RotatingCircles('bookCircles', books, {
         mode: 'circular',
@@ -30,8 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (!fileChosen) {
+        if (!fileChosen && !fileUsed) {
             showToast("⚠️ Сначала добавьте файл книги");
+            return;
+        }
+
+        if (fileUsed && fileInput.files[0] && fileInput.files[0].name === usedFileName) {
+            showToast("📁 Этот файл уже использован для книги");
             return;
         }
 
@@ -47,6 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
         plugin.addBook(book);
         localStorage.setItem("books", JSON.stringify(books));
         form.reset();
+
+        fileUsed = true;
+        fileInput.value = "";
+        fileChosen = false;
     });
 
     // change language
@@ -102,10 +114,12 @@ document.addEventListener("DOMContentLoaded", () => {
         fileInput.click();
     })
 
-    let fileChosen = false;
-
     fileInput.addEventListener("change", () => {
         fileChosen = !!fileInput.files[0];
+        fileUsed = false;
+        if(fileInput.files[0]) {
+            usedFileName = fileInput.files[0].name;
+        }
     });
 
     function showToast(message) {
