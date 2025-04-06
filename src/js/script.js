@@ -30,7 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (!fileChosen) {
+
+        if (!fileChosen && !fileUsed) {
             showToast("⚠️ Сначала добавьте файл книги");
             return;
         }
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plugin.addBook(book);
         localStorage.setItem("books", JSON.stringify(books));
         form.reset();
+        fileUsed = true;
     });
 
     // change language
@@ -103,9 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     let fileChosen = false;
+    let fileUsed = false;
 
     fileInput.addEventListener("change", () => {
         fileChosen = !!fileInput.files[0];
+        fileUsed = false;
     });
 
     function showToast(message) {
