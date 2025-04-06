@@ -261,10 +261,17 @@ html,body {
     z-index: 99;
 }
 
-.toast.show {
+.toast.show-warning {
     opacity: 1;
     pointer-events: auto;
     bottom: 40px;
+}
+
+.toast.show-success {
+    opacity: 1;
+    pointer-events: auto;
+    bottom: 40px;
+    background-color: #4CAF50;
 }
 
 

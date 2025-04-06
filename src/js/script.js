@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("book-form");
 
     let books =  JSON.parse(localStorage.getItem("books")) || [];
+    let currentFile = null;
+    const usedFileNames = new Set();
 
     const plugin = new RotatingCircles('bookCircles', books, {
         mode: 'circular',
@@ -31,24 +33,49 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        if (!fileChosen && !fileUsed) {
-            showToast("⚠️ Сначала добавьте файл книги");
+        if (!currentFile) {
+            showToast("⚠️ Сначала добавьте файл книги", false);
             return;
         }
 
-        const title = document.getElementById("title").value.trim();
-        const author = document.getElementById("author").value.trim();
-        const genre = document.getElementById("genre").value.trim();
-        const status = document.getElementById("status").value.trim();
+        if (usedFileNames.has(currentFile.name)) {
+            showToast("📁 Этот файл уже использован для книги", false);
+            return;
+        }
+        //library billet
+        // const reader = new FileReader();
+        // reader.onloadend = (e) => {
+        //     const fileData = reader.result;
 
-        if (!title || !author) return;
+            // circle building
+            const title = document.getElementById("title").value.trim();
+            const author = document.getElementById("author").value.trim();
+            const genre = document.getElementById("genre").value.trim();
+            const status = document.getElementById("status").value.trim();
 
-        const book = {title, author, genre, status};
+            if (!title || !author) return;
 
-        plugin.addBook(book);
-        localStorage.setItem("books", JSON.stringify(books));
-        form.reset();
-        fileUsed = true;
+            const book = {
+                title,
+                author,
+                genre,
+                status
+                // fileName: currentFile.name,
+                // fileData: fileData
+            };
+
+            plugin.addBook(book);
+            localStorage.setItem("books", JSON.stringify(books));
+            usedFileNames.add(currentFile.name);
+
+            form.reset();
+            fileInput.value = "";
+            currentFile = null;
+
+            showToast("Книга успешно добавлена", true);
+        // };
+
+        // reader.readAsDataURL(currentFile); // run reading
     });
 
     // change language
@@ -104,26 +131,26 @@ document.addEventListener("DOMContentLoaded", () => {
         fileInput.click();
     })
 
-    let fileChosen = false;
-    let fileUsed = false;
-
     fileInput.addEventListener("change", () => {
-        fileChosen = !!fileInput.files[0];
-        fileUsed = false;
+        if(fileInput.files.length > 0){
+            currentFile = fileInput.files[0];
+        } else {
+            currentFile = null;
+        }
     });
 
-    function showToast(message) {
+    function showToast(message, BoolStatus) {
         const toast = document.getElementById("toast");
         if(!toast) return;
 
         toast.textContent = message;
-        toast.classList.remove("show");
+        toast.classList.remove(BoolStatus ? "show-success" : "show-warning");
         setTimeout(() => {
-            toast.classList.add("show");
+            toast.classList.add(BoolStatus ? "show-success" : "show-warning");
         }, 10);
 
         setTimeout(() => {
-            toast.classList.remove("show");
+            toast.classList.remove(BoolStatus ? "show-success" : "show-warning");
         }, 3000);
     }
 });
