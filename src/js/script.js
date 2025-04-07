@@ -1,5 +1,60 @@
 import RotatingCircles from 'https://cdn.jsdelivr.net/gh/MaksymLeng/rotating-circles-plugin/dist/circle-plugin.min.js';
 
+const BookStorage = (function () {
+    const dbName = 'lmgLibraryDB';
+    const storeName = 'books';
+    let db;
+
+    function initDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(dbName, 1);
+            request.onerror = () => reject('Ошибка IndexedDB');
+            request.onsuccess = () => {
+                db = request.result;
+                resolve();
+            };
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                db.createObjectStore(storeName, { keyPath: 'name' });
+            };
+        });
+    }
+
+    async function saveBook(file) {
+        if (!db) await initDB();
+
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(storeName, 'readwrite');
+            const store = tx.objectStore(storeName);
+            const book = {
+                name: file.name,
+                type: file.type,
+                data: file
+            };
+            const request = store.put(book);
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject('Ошибка при сохранении книги');
+        });
+    }
+
+    async function getBook(name) {
+        if (!db) await initDB();
+
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(storeName, 'readonly');
+            const store = tx.objectStore(storeName);
+            const request = store.get(name);
+            request.onsuccess = () => resolve(request.result?.data || null);
+            request.onerror = () => reject('Ошибка при получении книги');
+        });
+    }
+
+    return {
+        saveBook,
+        getBook
+    };
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
     // navbook anim
 
@@ -30,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         speed: 0.01
     });
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         if (!currentFile) {
@@ -42,40 +97,34 @@ document.addEventListener("DOMContentLoaded", () => {
             showToast("📁 Этот файл уже использован для книги", false);
             return;
         }
-        //library billet
-        // const reader = new FileReader();
-        // reader.onloadend = (e) => {
-        //     const fileData = reader.result;
 
-            // circle building
-            const title = document.getElementById("title").value.trim();
-            const author = document.getElementById("author").value.trim();
-            const genre = document.getElementById("genre").value.trim();
-            const status = document.getElementById("status").value.trim();
+        const title = document.getElementById("title").value.trim();
+        const author = document.getElementById("author").value.trim();
+        const genre = document.getElementById("genre").value.trim();
+        const status = document.getElementById("status").value.trim();
 
-            if (!title || !author) return;
+        if (!title || !author) return;
 
-            const book = {
-                title,
-                author,
-                genre,
-                status
-                // fileName: currentFile.name,
-                // fileData: fileData
-            };
+        // Сохраняем файл в IndexedDB через BookStorage
+        await BookStorage.saveBook(currentFile);
 
-            plugin.addBook(book);
-            localStorage.setItem("books", JSON.stringify(books));
-            usedFileNames.add(currentFile.name);
+        const book = {
+            title,
+            author,
+            genre,
+            status,
+            fileName: currentFile.name
+        };
 
-            form.reset();
-            fileInput.value = "";
-            currentFile = null;
+        plugin.addBook(book);
+        localStorage.setItem("books", JSON.stringify(books));
+        usedFileNames.add(currentFile.name);
 
-            showToast("Книга успешно добавлена", true);
-        // };
+        form.reset();
+        fileInput.value = "";
+        currentFile = null;
 
-        // reader.readAsDataURL(currentFile); // run reading
+        showToast("Книга успешно добавлена", true);
     });
 
     // change language
@@ -152,5 +201,45 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             toast.classList.remove(BoolStatus ? "show-success" : "show-warning");
         }, 3000);
+    }
+
+    window.addEventListener("book-open-requested", async (e) => {
+        const { fileName, book } = e.detail;
+
+        const file = await BookStorage.getBook(fileName);
+        if (!file) {
+            alert("Файл не найден");
+            return;
+        }
+
+        const url = URL.createObjectURL(file);
+        openReader(url, book);
+    });
+
+    function openReader(url, book) {
+        let modal = document.getElementById("readerModal");
+        if (!modal) {
+            modal = document.createElement("div");
+            modal.id = "readerModal";
+
+            const iframe = document.createElement("iframe");
+            iframe.id = "readerFrame";
+            modal.appendChild(iframe);
+
+            const closeBtn = document.createElement("button");
+            closeBtn.textContent = "Закрыть";
+            closeBtn.addEventListener("click", () => {
+                document.body.removeChild(modal);
+                URL.revokeObjectURL(url); // очищаем память
+            });
+            modal.appendChild(closeBtn);
+
+            document.body.appendChild(modal);
+        }
+
+        const frame = document.getElementById("readerFrame");
+        if (frame) {
+            frame.src = url;
+        }
     }
 });
