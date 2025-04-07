@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const plugin = new RotatingCircles('bookCircles', books, {
         mode: 'circular',
-        radius: 150,
-        speed: 0.01
+        radius: 450,
+        speed: 0.005
     });
 
     form.addEventListener("submit", async (e) => {
