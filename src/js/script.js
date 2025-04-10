@@ -1,6 +1,5 @@
 import RotatingCircles from "./circle-plugin.js";
 
-
 const BookStorage = (function () {
     const dbName = 'lmgLibraryDB';
     const storeName = 'books';
@@ -140,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("click", (e) => {
+        if (document.getElementById("readerModal")) return;
         //langList
         langList.style.display = "none";
         langBtn.classList.remove("active");
@@ -223,12 +223,29 @@ document.addEventListener("DOMContentLoaded", () => {
             modal = document.createElement("div");
             modal.id = "readerModal";
 
-            const iframe = document.createElement("iframe");
-            iframe.id = "readerFrame";
-            modal.appendChild(iframe);
+            const viewer = document.createElement("div");
+            viewer.id = "readerViewer";
+            modal.appendChild(viewer);
+
+            viewer.innerHTML = "";
+
+
+            if (book.fileName && book.fileName.endsWith(".epub")) {
+                console.log("need fix");
+            } else if (book.fileName.endsWith(".pdf")) {
+                const iframe = document.createElement("iframe");
+                iframe.src = url;
+                iframe.style.width = "80vw";
+                iframe.style.height = "80vh";
+                iframe.style.border = "none";
+                viewer.appendChild(iframe);
+            }else {
+                viewer.innerHTML = "<p style = 'color: white'> Неподерживаемый формат файла</p>";
+            }
 
             const closeBtn = document.createElement("button");
             closeBtn.textContent = "Закрыть";
+            closeBtn.classList.add("close-btn");
             closeBtn.addEventListener("click", () => {
                 document.body.removeChild(modal);
                 URL.revokeObjectURL(url); // очищаем память
@@ -236,11 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.appendChild(closeBtn);
 
             document.body.appendChild(modal);
-        }
-
-        const frame = document.getElementById("readerFrame");
-        if (frame) {
-            frame.src = url;
         }
     }
 });
