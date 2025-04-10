@@ -12,7 +12,7 @@ html,body {
     align-items: center;
     padding: 16px 32px;
     background-color: #ffff;
-    box-shadow: 0 4pgit pull --rebasex 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 99;
@@ -404,7 +404,7 @@ html,body {
 
 .card {
     flex: 1;
-    background: #f9f9f9;
+    background: #f7f7f7;
     padding: 24px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);

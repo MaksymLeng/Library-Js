@@ -1,4 +1,5 @@
-import RotatingCircles from 'https://cdn.jsdelivr.net/gh/MaksymLeng/rotating-circles-plugin/dist/circle-plugin.min.js';
+import RotatingCircles from "./circle-plugin.js";
+
 
 const BookStorage = (function () {
     const dbName = 'lmgLibraryDB';
