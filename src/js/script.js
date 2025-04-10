@@ -227,11 +227,24 @@ document.addEventListener("DOMContentLoaded", () => {
             viewer.id = "readerViewer";
             modal.appendChild(viewer);
 
-            viewer.innerHTML = "";
-
-
             if (book.fileName && book.fileName.endsWith(".epub")) {
-                console.log("need fix");
+                    viewer.innerHTML = "";
+
+                    // Инициализируем книгу через epub.js
+                    const bookInstance = ePub(url);
+                    const rendition = bookInstance.renderTo("readerViewer", {
+                        width: "80%",
+                        height: "80%"
+                    });
+
+                    // После готовности книги
+                    bookInstance.ready.then(() => {
+                        console.log("✅ Книга открыта, запускаем отображение");
+                        // Отобразим первую страницу
+                        rendition.display();
+                    }).catch(err => {
+                        console.error("❌ Ошибка при открытии книги:", err);
+                    });
             } else if (book.fileName.endsWith(".pdf")) {
                 const iframe = document.createElement("iframe");
                 iframe.src = url;
