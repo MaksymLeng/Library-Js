@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const plugin = new RotatingCircles('bookCircles', books, {
         mode: 'circular',
         radius: 450,
-        speed: 0.005
+        speed: 0.02
     });
 
     form.addEventListener("submit", async (e) => {
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const closeBtn = document.createElement("button");
-            closeBtn.textContent = "Закрыть";
+            closeBtn.textContent = "×";
             closeBtn.classList.add("close-btn");
             closeBtn.addEventListener("click", () => {
                 document.body.removeChild(modal);
