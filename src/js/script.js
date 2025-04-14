@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const plugin = new RotatingCircles('bookCircles', books, {
         mode: 'circular',
-        radius: 450,
-        speed: 0.005
+        radius: 300,
+        speed: 0.01
     });
 
     form.addEventListener("submit", async (e) => {
@@ -227,12 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
             viewer.id = "readerViewer";
             modal.appendChild(viewer);
 
-            viewer.innerHTML = "";
-
             if (book.fileName && book.fileName.endsWith(".epub")) {
-                // Эта функция будет запускать чтение EPUB
-                const startEPUB = () => {
-                    const viewer = document.getElementById("readerViewer");
                     viewer.innerHTML = "";
 
                     // Инициализируем книгу через epub.js
@@ -242,36 +237,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         height: "80%"
                     });
 
+                    // После готовности книги
                     bookInstance.ready.then(() => {
                         console.log("✅ Книга открыта, запускаем отображение");
+                        // Отобразим первую страницу
                         rendition.display();
                     }).catch(err => {
                         console.error("❌ Ошибка при открытии книги:", err);
                     });
-                };
-
-                // Проверяем, загружена ли уже epub.js
-                if (typeof window.ePub === "function") {
-                    console.log("✅ epub.js уже загружен");
-                    startEPUB();
-                } else {
-                    console.log("📦 Подключаем epub.js через CDN...");
-                    // Проверим, не добавляли ли ранее скрипт
-                    const alreadyLoaded = document.querySelector('script[src*="epub.min.js"]');
-                    if (alreadyLoaded) {
-                        console.log("⚠️ Скрипт уже был добавлен, запускаем сразу");
-                        startEPUB();
-                    } else {
-                        // Если ещё нет, то подгружаем
-                        const script = document.createElement("script");
-                        script.src = "https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js";
-                        script.onload = () => {
-                            console.log("✅ epub.js загружен!");
-                            startEPUB();
-                        };
-                        document.body.appendChild(script);
-                    }
-                }
             } else if (book.fileName.endsWith(".pdf")) {
                 const iframe = document.createElement("iframe");
                 iframe.src = url;
@@ -284,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const closeBtn = document.createElement("button");
-            closeBtn.textContent = "Закрыть";
+            closeBtn.textContent = "×";
             closeBtn.classList.add("close-btn");
             closeBtn.addEventListener("click", () => {
                 document.body.removeChild(modal);
