@@ -1,4 +1,4 @@
-import RotatingCircles from "./circle-plugin.js";
+import RotatingCircles from "https://cdn.jsdelivr.net/gh/MaksymLeng/rotating-circles-plugin/dist/circle-plugin.min.js";
 
 const BookStorage = (function () {
     const dbName = 'lmgLibraryDB';
@@ -55,6 +55,49 @@ const BookStorage = (function () {
     };
 })();
 
+//Change language function control
+
+let translations = {};
+let currentLang = localStorage.getItem("lang") || "ru";
+
+async function loadLang(lang) {
+    const res = await fetch(`lang/${lang}.json`);
+    translations = await res.json();
+    currentLang = lang;
+    localStorage.setItem("lang", lang);
+    updateText();
+}
+
+loadLang(currentLang);
+
+function updateText() {
+    // Текстовые элементы с data-i18n
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[key]) el.innerText = translations[key];
+    });
+
+    // Input/textarea по id
+    ["title", "author", "genre", "addBtn"].forEach(id => {
+        const el = document.getElementById(id);
+        if(!el || !translations[id]) return;
+
+        if (el.tagName === "INPUT") {
+            el.placeholder = translations[id];
+        }else if(el.tagName === "BUTTON") {
+            el.innerText = translations[id];
+        }
+    });
+
+    // Select options по value
+    document.querySelectorAll("select option").forEach(opt => {
+        const value = opt.value;
+        if (translations[value]) {
+            opt.textContent = translations[value];
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // navbook anim
 
@@ -89,12 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         if (!currentFile) {
-            showToast("⚠️ Сначала добавьте файл книги", false);
+            showToast(translations["toast_no_file"], false);
             return;
         }
 
         if (usedFileNames.has(currentFile.name)) {
-            showToast("📁 Этот файл уже использован для книги", false);
+            showToast(translations["toast_duplicate_file"], false);
             return;
         }
 
@@ -124,18 +167,45 @@ document.addEventListener("DOMContentLoaded", () => {
         fileInput.value = "";
         currentFile = null;
 
-        showToast("Книга успешно добавлена", true);
+        showToast(translations["toast_success"], true);
     });
 
-    // change language
+    // change language btn control
 
     const langBtn = document.getElementById("btn_lang");
     const langList = document.getElementById("lang_list");
 
+    function toogleLangList(show) {
+        const items = [...langList.querySelectorAll("li")];
+
+        if (show) {
+            langList.style.display = "block";
+
+        } else {
+            setTimeout(() => {
+                langList.style.display = "none";
+            }, items.length * 50 + 300);
+        }
+
+        items.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.toggle("visible");
+            }, index * 50);
+        });
+    }
+
+
+
     langBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        langList.style.display = langList.style.display === "block" ? "none" : "block";
+        langList.style.display === "block" ? toogleLangList(0) : toogleLangList(1);
         langBtn.classList.toggle("active");
+        langList.querySelectorAll("li").forEach((item) => {
+            item.addEventListener("click", () => {
+                const lang = item.dataset.lang;
+                loadLang(lang);
+            })
+        })
     });
 
     document.addEventListener("click", (e) => {
@@ -239,8 +309,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // После готовности книги
                     bookInstance.ready.then(() => {
-                        console.log("✅ Книга открыта, запускаем отображение");
-                        // Отобразим первую страницу
                         rendition.display();
                     }).catch(err => {
                         console.error("❌ Ошибка при открытии книги:", err);

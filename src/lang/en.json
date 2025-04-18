@@ -1,0 +1,16 @@
+{
+  "howToUseTitle": "📖 How to use the library",
+  "howToUseLine1": "Add your book manually with title, author, genre, and reading status.",
+  "howToUseLine2": "Your books are saved in your browser - you can return to them at any time.",
+  "addBookTitle": "➕ Add a book",
+  "title": "Book title",
+  "author": "Author",
+  "genre": "Genre (optional)",
+  "plan": "Plan to read",
+  "reading": "Reading",
+  "read": "Read",
+  "addBtn": "Add \uD83D\uDCDA",
+  "toast_no_file": "⚠️ Please upload a book file first",
+  "toast_duplicate_file": "📁 This file has already been used",
+  "toast_success": "Book added successfully"
+}

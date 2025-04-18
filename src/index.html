@@ -40,29 +40,29 @@
     <main class="main">
         <div class="main_content">
             <section class="how_to_use card">
-                <h2>📖 Как пользоваться библиотекой</h2>
-                <div>Добавьте свою книгу вручную, указав название, автора, жанр и статус чтения.</div>
-                <div>Ваши книги сохраняются в браузере — вы сможете вернуться к ним в любой момент.</div>
+                <h2 data-i18n="howToUseTitle"></h2>
+                <div data-i18n="howToUseLine1"></div>
+                <div data-i18n="howToUseLine2"></div>
             </section>
             <div class="circle-wrapper card">
                 <section class="add-book">
-                    <h2>➕ Добавить книгу</h2>
+                    <h2 data-i18n="addBookTitle"></h2>
                     <form id="book-form">
-                        <input type ="text" id="title" placeholder="Название книги" required>
-                        <input type ="text" id="author" placeholder="Автор" required>
-                        <input type ="text" id="genre" placeholder="Жанр(не обязательно)" />
+                        <input type ="text" id="title" placeholder="" required>
+                        <input type ="text" id="author" placeholder="" required>
+                        <input type ="text" id="genre" placeholder="" />
                         <select id="status">
-                            <option value="plan">В планах</option>
-                            <option value="reading">Читаю</option>
-                            <option value="read">Прочитано</option>
+                            <option value="plan"></option>
+                            <option value="reading"></option>
+                            <option value="read"></option>
                         </select>
                         <div class = "buttons-container">
-                            <button type ="submit" class ="green-btn">Добавить 📚</button>
+                            <button type ="submit" class ="green-btn" id = "addBtn"></button>
                             <button class ="yellow-btn">📁</button>
                             <input type="file" id="fileInput" accept=".pdf, .epub" style="display: none"/>
                         </div>
                     </form>
-                    <div id="toast" class="toast hidden">⚠️ Сначала добавьте файл книги</div>
+                    <div id="toast" class="toast hidden"></div>
                 </section>
             </div>
         </div>
