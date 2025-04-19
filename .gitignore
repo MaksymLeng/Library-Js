@@ -2,3 +2,7 @@
 
 .gitignore
 .circle-plugin.js
+LMG/
+node_modules/
+package.json
+package-lock.json
