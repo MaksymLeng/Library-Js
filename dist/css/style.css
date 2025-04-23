@@ -194,6 +194,10 @@ html,body {
     .main_content {
         flex-direction: column;
     }
+
+    .main {
+        padding-top: 80px;
+    }
 }
 
 .buttons-container {
