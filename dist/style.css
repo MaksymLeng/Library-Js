@@ -41,10 +41,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.3s ease;
 }
-.header_menu_navbook:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+.header_menu_navbook img {
+  width: 32px;
+  height: 32px;
 }
 .header_menu_lang {
   position: relative;
@@ -85,12 +85,6 @@
 }
 .header_menu_lang #lang_list li:hover {
   background-color: #f0f0f0;
-}
-
-.rotated {
-  display: inline-block;
-  transform: rotate(90deg);
-  transition: transform 0.3s ease-in-out;
 }
 
 .main {
@@ -176,8 +170,7 @@
   background-position: right bottom;
   color: #333;
 }
-
-.yellow-btn {
+.green-btn .yellow-btn {
   position: absolute;
   top: 0;
   right: 0;
@@ -195,8 +188,8 @@
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
   justify-content: center;
 }
-.yellow-btn:hover {
-  background-color: #FFA500;
+.green-btn .yellow-btn:hover {
+  background-color: #FFD700;
 }
 
 .toast {

@@ -5,7 +5,7 @@ const path = require('path');
 // Копирование index.html
 fs.copyFileSync('src/index.html', 'dist/index.html');
 
-// Копирование всех файлов из src/css → dist/css (и аналогично fonts/img/lang)
+// Копирование всех файлов из src/scss → dist/scss (и аналогично fonts/img/lang)
 function copyFolderRecursive(src, dest) {
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
     for (const file of fs.readdirSync(src)) {
@@ -18,7 +18,7 @@ function copyFolderRecursive(src, dest) {
         }
     }
 }
-copyFolderRecursive('src/css', 'dist/css');
+copyFolderRecursive('src/scss', 'dist/scss');
 copyFolderRecursive('src/fonts', 'dist/fonts');
 copyFolderRecursive('src/icons', 'dist/icons');
 copyFolderRecursive('src/img', 'dist/img');
