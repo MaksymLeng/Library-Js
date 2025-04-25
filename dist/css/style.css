@@ -45,6 +45,15 @@
 }
 .header_menu_navbook:hover {
   background-color: rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
+}
+.header_menu_navbook img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+}
+.header_menu_navbook img:hover {
+  transform: rotate(10deg) scale(1.1);
 }
 .header_menu_lang {
   position: relative;
@@ -89,8 +98,8 @@
 
 .rotated {
   display: inline-block;
-  transform: rotate(90deg);
-  transition: transform 0.3s ease-in-out;
+  transform: rotate(360deg) scale(1.1);
+  transition: transform 0.5s ease-in-out;
 }
 
 .main {
