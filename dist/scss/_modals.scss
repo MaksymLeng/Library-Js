@@ -16,13 +16,13 @@
   transition: opacity 0.4s ease, bottom 0.4s ease;
   z-index: 99;
 
-  &.show-warning, &.show-success {
+  &_show-warning, &_show-success {
     opacity: 1;
     pointer-events: auto;
     bottom: 40px;
   }
 
-  &.show-success {
+  &_show-success {
     background-color: $primary-color;
   }
 }

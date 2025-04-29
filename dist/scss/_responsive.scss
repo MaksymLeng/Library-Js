@@ -1,0 +1,15 @@
+@use './variables' as *;
+
+@media (max-width: 768px) {
+  .main_content {
+    flex-direction: column;
+  }
+
+  .body {
+    background: $light-gb;
+  }
+
+  .main {
+    padding-top: 80px;
+  }
+}

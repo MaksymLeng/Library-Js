@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css"> <!--You need to connect all styles from the scss folder to make it work.-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/MaksymLeng/rotating-circles-plugin/dist/circle-plugin.css">
 </head>
 <body>
@@ -48,10 +48,10 @@
                 <section class="add-book">
                     <h2 data-i18n="addBookTitle"></h2>
                     <form id="book-form">
-                        <input type ="text" id="title" placeholder="" required>
-                        <input type ="text" id="author" placeholder="" required>
-                        <input type ="text" id="genre" placeholder="" />
-                        <select id="status">
+                        <label for="title"></label><input type ="text" id="title" placeholder="" required>
+                        <label for="author"></label><input type ="text" id="author" placeholder="" required>
+                        <label for="genre"></label><input type ="text" id="genre" placeholder="" />
+                        <label for="status"></label><select id="status">
                             <option value="plan"></option>
                             <option value="reading"></option>
                             <option value="read"></option>

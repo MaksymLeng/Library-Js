@@ -6,3 +6,4 @@ LMG/
 node_modules/
 package.json
 package-lock.json
+js/build.js

@@ -1,11 +1,11 @@
 const esbuild = require('esbuild');
 const fs = require('fs');
 const path = require('path');
+const { sassPlugin } = require('esbuild-sass-plugin');
 
-// Копирование index.html
 fs.copyFileSync('src/index.html', 'dist/index.html');
 
-// Копирование всех файлов из src/scss → dist/scss (и аналогично fonts/img/lang)
+
 function copyFolderRecursive(src, dest) {
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
     for (const file of fs.readdirSync(src)) {
@@ -18,11 +18,22 @@ function copyFolderRecursive(src, dest) {
         }
     }
 }
-copyFolderRecursive('src/scss', 'dist/scss');
+
 copyFolderRecursive('src/fonts', 'dist/fonts');
 copyFolderRecursive('src/icons', 'dist/icons');
 copyFolderRecursive('src/img', 'dist/img');
 copyFolderRecursive('src/lang', 'dist/lang');
+
+esbuild.build({
+    entryPoints: ['src/scss/style.scss'],
+    bundle: true,
+    outdir: 'dist/css',
+    minify: true,
+    plugins: [sassPlugin()],
+    loader: { '.scss': 'css' },
+}).then(() => {
+    console.log('🎨 SCSS -> CSS готово!');
+}).catch(() => process.exit(1));
 
 esbuild.build({
     entryPoints: ['src/js/script.js'],

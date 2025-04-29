@@ -18,6 +18,7 @@ export function setupForm(plugin) {
 
         if (!currentFile) {
             showToast(translations["toast_no_file"], false);
+            console.log("Hello");
             return;
         }
 
