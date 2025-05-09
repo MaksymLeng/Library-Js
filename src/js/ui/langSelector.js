@@ -11,23 +11,24 @@ export function setupLangSelector() {
         } else {
             setTimeout(() => {
                 langList.style.display = "none";
-            }, items.length * 50 + 300);
+            }, items.length * 50 + 200);
         }
         items.forEach((item, index) => {
             setTimeout(() => {
-                item.classList.toggle("visible");
+                item.classList.toggle("visible", show);
             }, index * 50);
         });
     }
 
     langBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        toggleLangList(langList.style.display !== "block");
+        langList.style.display === "block" ? toggleLangList(false) : toggleLangList(true);
         langBtn.classList.toggle("active");
         langList.querySelectorAll("li").forEach((item) => {
             item.addEventListener("click", () => {
                 const lang = item.dataset.lang;
                 loadLang(lang);
+                toggleLangList(false);
             });
         });
     });
